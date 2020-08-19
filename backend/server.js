@@ -12,8 +12,8 @@ app.use(cors());
 app.use(express.json());
 
 //Connect database
-//const uri = process.env.ATLAS_URI;
-const uri = "mongodb://localhost:27017/exerciseDB";
+const uri = process.env.ATLAS_URI;
+//const uri = "mongodb://localhost:27017/exerciseDB";
 mongoose.connect(uri, {useNewUrlParser:true, useFindAndModify: true, useUnifiedTopology:true, useCreateIndex:true});
 const connection = mongoose.connection;
 connection.once("open", () => console.log("MongoDB database connection established succesfully"));

@@ -1,18 +1,29 @@
 import React, {useState} from "react";
+import axios from "axios";
 
 function CreateUser(){
 
-    const [username, setUsername] = useState("");
+    const [isCreated, setCreated] = useState(false)
+
+    const [user, setUsername] = useState({
+        username: ""
+    });
 
     function handleChange(event){
         const newUsername = event.target.value;
-        setUsername(newUsername);
+        setUsername({username: newUsername});
+        setCreated(false);
     }
 
     function handleSubmit(event){
         event.preventDefault()
-        setUsername("");
-        console.log(username)
+        setUsername({username: ""});
+
+        axios.post("http://localhost:5000/users/add", user)
+        .then(res => console.log(res.data));
+        
+        setCreated(true)
+
         
     }
 
@@ -22,11 +33,14 @@ function CreateUser(){
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>Username: </label>
-                    <input type="text" required className="form-control" value={username} onChange={handleChange}/>
+                    <input type="text" required className="form-control" value={user.username} onChange={handleChange}/>
                 </div>
                 <div className="form-group">
                     <input type="submit" value="Create User" className="btn btn-primary"/>
                 </div>
+                {
+                    isCreated && <p>User Created!</p> 
+                }
             </form>
         </div>
     );
